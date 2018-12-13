@@ -1,14 +1,22 @@
 # MDV-Dynamic-Form
 
+* Install following
+
+    ```bash
+    ng add @angular/material @angular/cdk
+
+    npm install --save @angular/material-moment-adapter moment
+    ```
+
 * Import `DynamicFormModule` in `app.module.ts`.
 
-    ```angular
+    ```ts
     import { DynamicFormModule } from 'dynamic-form';
     ```
 
     and add into imports
 
-    ```angular
+    ```ts
     @NgModule({
         declarations: [
             ...
@@ -26,13 +34,13 @@
 
   * Add `mdv-dynamic-form` in .html file
 
-    ```angular
+    ```html
     <mdv-dynamic-form [fields]="regConfig" (submit)="submit($event)"></mdv-dynamic-form>
     ```
 
   * And .ts file is look like this
 
-    ```angular
+    ```ts
     import { Component, ViewChild } from '@angular/core';
     import { DynamicFormComponent, FieldConfig } from 'dynamic-form';
     import { Validators } from '@angular/forms';
@@ -44,7 +52,7 @@
     })
     export class AppComponent {
 
-    title = 'ngx-dynamic-form';
+    title = 'mdv-dynamic-form';
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
     regConfig: FieldConfig[] = [
@@ -140,6 +148,40 @@
         submit(value) {
             console.log(value)
         }
+    }
+    ```
+
+  * Add this in style.css
+
+    ```css
+    @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+    body {
+        margin: 10px;
+    }
+
+    .demo-full-width {
+        width: 100%;
+    }
+
+    .margin-top {
+        margin-top: 15px;
+    }
+
+    .margin-left {
+        margin-left: 10px;
+    }
+
+    .radio-label-padding {
+        padding-right: 10px;
+        color: grey;
+    }
+
+    .form {
+        margin-left: 10px;
+        border: 2px solid lightgray;
+        width: 600px;
+        padding-left: 5px;
+        margin-top: 10px;
     }
     ```
 
