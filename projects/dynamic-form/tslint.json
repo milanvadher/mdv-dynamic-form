@@ -1,0 +1,22 @@
+{
+    "extends": "../../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "mdv",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "mdv",
+            "kebab-case"
+        ]
+    },
+    "paths": {
+        "dynamic-form": [
+            "dist/dynamic-form"
+        ]
+    }
+}

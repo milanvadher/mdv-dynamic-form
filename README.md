@@ -1,27 +1,146 @@
-# NgxDynamicForm
+# MDV-Dynamic-Form
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
+* Import `DynamicFormModule` in `app.module.ts`.
 
-## Development server
+    ```angular
+    import { DynamicFormModule } from 'dynamic-form';
+    ```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+    and add into imports
 
-## Code scaffolding
+    ```angular
+    @NgModule({
+        declarations: [
+            ...
+        ],
+        imports: [
+            ...
+            DynamicFormModule
+        ]
+    })
+    ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Now you are good to go
 
-## Build
+* For use in any component
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+  * Add `mdv-dynamic-form` in .html file
 
-## Running unit tests
+    ```angular
+    <mdv-dynamic-form [fields]="regConfig" (submit)="submit($event)"></mdv-dynamic-form>
+    ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  * And .ts file is look like this
 
-## Running end-to-end tests
+    ```angular
+    import { Component, ViewChild } from '@angular/core';
+    import { DynamicFormComponent, FieldConfig } from 'dynamic-form';
+    import { Validators } from '@angular/forms';
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+    @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+    })
+    export class AppComponent {
 
-## Further help
+    title = 'ngx-dynamic-form';
+    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+    regConfig: FieldConfig[] = [
+            {
+            type: "input",
+            label: "Username",
+            inputType: "text",
+            name: "name",
+            validations: [
+                {
+                name: "required",
+                validator: Validators.required,
+                message: "Name Required"
+                },
+                {
+                name: "pattern",
+                validator: Validators.pattern("^[a-zA-Z]+$"),
+                message: "Accept only text"
+                }
+            ]
+            },
+            {
+            type: "input",
+            label: "Email Address",
+            inputType: "email",
+            name: "email",
+            validations: [
+                {
+                name: "required",
+                validator: Validators.required,
+                message: "Email Required"
+                },
+                {
+                name: "pattern",
+                validator: Validators.pattern(
+                    "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+                ),
+                message: "Invalid email"
+                }
+            ]
+            },
+            {
+            type: "input",
+            label: "Password",
+            inputType: "password",
+            name: "password",
+            validations: [
+                {
+                name: "required",
+                validator: Validators.required,
+                message: "Password Required"
+                }
+            ]
+            },
+            {
+            type: "radiobutton",
+            label: "Gender",
+            name: "gender",
+            options: ["Male", "Female"],
+            value: "Male"
+            },
+            {
+            type: "date",
+            label: "DOB",
+            name: "dob",
+            validations: [
+                {
+                name: "required",
+                validator: Validators.required,
+                message: "Date of Birth Required"
+                }
+            ]
+            },
+            {
+            type: "select",
+            label: "Country",
+            name: "country",
+            value: "UK",
+            options: ["India", "UAE", "UK", "US"]
+            },
+            {
+            type: "checkbox",
+            label: "Accept Terms",
+            name: "term",
+            value: true
+            },
+            {
+            type: "button",
+            label: "Save"
+            }
+        ];
+
+        submit(value) {
+            console.log(value)
+        }
+    }
+    ```
+
+* Thats it.
