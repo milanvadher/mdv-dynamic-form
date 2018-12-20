@@ -10,7 +10,6 @@ import { RadiobuttonComponent } from './components/radiobutton/radiobutton.compo
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DynamicFieldDirective } from './components/dynamic-field/dynamic-field.directive';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -18,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    BrowserAnimationsModule
   ],
   declarations: [DynamicFormComponent, InputComponent, ButtonComponent, SelectComponent, DateComponent, RadiobuttonComponent, CheckboxComponent, DynamicFieldDirective],
   exports: [DynamicFormComponent],

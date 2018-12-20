@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { Component, Input, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { FieldConfig } from "../public_api";
 
 @Component({
   selector: 'mdv-dynamic-form',
   template: `
-  <form class="dynamic-form" [formGroup]="form" (submit)="onSubmit($event)">
+  <form class="dynamic-form" [formGroup]="form">
   <ng-container *ngFor="let field of fields;" dynamicField [field]="field" [group]="form">
   </ng-container>
   </form>
@@ -14,37 +14,63 @@ import { FieldConfig } from "../public_api";
 })
 export class DynamicFormComponent implements OnInit {
 
+  // Public variables
   @Input() fields: FieldConfig[] = [];
-  @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
 
+  /**
+   * Constructor
+   * 
+   * @param fb 
+   */
   constructor(private fb: FormBuilder) { }
 
+
+  // ---------------------------------------------------------------------------
+  //  @Lifecycle Hooks
+  // ---------------------------------------------------------------------------
+
+  /**
+   * On Init
+   */
   ngOnInit() {
     this.form = this.createControl();
   }
 
+
+  // ---------------------------------------------------------------------------
+  //  @Private Methods
+  // ---------------------------------------------------------------------------
+
+  /**
+   * @returns form value
+   */
   get value() {
     return this.form.value;
   }
 
-  createControl() {
+  /**
+   * Create form control of each fields 
+   */
+  private createControl() {
     const group = this.fb.group({});
-    this.fields.forEach(field => {
+    this.fields.forEach((field: FieldConfig) => {
       if (field.type === "button") return;
-      const control = this.fb.control(
-        field.value,
-        this.bindValidations(field.validations || [])
-      );
+      const control = this.fb.control(field.value, this.bindValidations(field.validations || []));
       group.addControl(field.name, control);
     });
     return group;
   }
 
-  bindValidations(validations: any) {
+  /**
+   * Binding validation in form field
+   *  
+   * @param validations 
+   */
+  private bindValidations(validations: any) {
     if (validations.length > 0) {
       const validList = [];
-      validations.forEach(valid => {
+      validations.forEach((valid: { validator: any; }) => {
         validList.push(valid.validator);
       });
       return Validators.compose(validList);
@@ -52,21 +78,41 @@ export class DynamicFormComponent implements OnInit {
     return null;
   }
 
-  onSubmit(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+  /**
+   * Validate all form field
+   *  
+   * @param formGroup 
+   */
+  private validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+  }
+
+
+  // ---------------------------------------------------------------------------
+  //  @Public Methods
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Form submit
+   * 
+   * @returns form value if form is valid else validation error
+   */
+  public onSubmit() {
     if (this.form.valid) {
-      this.submit.emit(this.form.value);
+      return this.form.value;
     } else {
       this.validateAllFormFields(this.form);
     }
   }
 
-  validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      control.markAsTouched({ onlySelf: true });
-    });
+  /**
+   * Form reset
+   */
+  public onReset() {
+    this.form.reset();
   }
 
 }

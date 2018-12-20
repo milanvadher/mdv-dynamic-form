@@ -1,1 +1,8 @@
-<mdv-dynamic-form [fields]="regConfig" (submit)="submit($event)"></mdv-dynamic-form>
+<div style="padding: 20px;">
+    <mdv-dynamic-form [fields]="regConfig"></mdv-dynamic-form>
+    <br><br>
+    <div class="action">
+        <button mat-raised-button (click)="reset()">Reset</button>
+        <button mat-raised-button color="primary" (click)="save()">Save</button>
+    </div>
+</div>

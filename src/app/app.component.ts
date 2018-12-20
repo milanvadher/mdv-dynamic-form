@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DynamicFormComponent, FieldConfig } from 'dynamic-form';
-import { Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +11,9 @@ export class AppComponent {
 
   title = 'ngx-dynamic-form';
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+
+  options: FormGroup;
+  condition = false;
 
   regConfig: FieldConfig[] = [
     {
@@ -69,7 +72,6 @@ export class AppComponent {
       label: "Gender",
       name: "gender",
       options: ["Male", "Female"],
-      value: "Male"
     },
     {
       type: "date",
@@ -87,22 +89,43 @@ export class AppComponent {
       type: "select",
       label: "Country",
       name: "country",
-      value: "UK",
-      options: ["India", "UAE", "UK", "US"]
+      options: ["India", "UAE", "UK", "US"],
+      validations: [
+        {
+          name: "required",
+          validator: Validators.required,
+          message: "Country is required"
+        }
+      ]
     },
     {
       type: "checkbox",
       label: "Accept Terms",
       name: "term",
-      value: true
-    },
-    {
-      type: "button",
-      label: "Save"
+      validations: [
+        {
+          name: "required",
+          validator: Validators.required,
+          message: "Accept our terms"
+        }
+      ]
     }
   ];
 
-  submit(value) {
-    console.log(value)
+  constructor(fb: FormBuilder) {
+    this.options = fb.group({
+      hideRequired: false,
+      floatLabel: 'auto',
+    });
   }
+
+  save() {
+    let value = this.form.onSubmit();
+    console.log(value);
+  }
+
+  reset() {
+    this.form.onReset();
+  }
+
 }

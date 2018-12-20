@@ -25,7 +25,7 @@ export class DynamicFieldDirective implements OnInit {
   @Input() field: FieldConfig;
   @Input() group: FormGroup;
 
-  componentRef: any;
+  componentRef: ComponentRef<any>;
 
   constructor(
     private resolver: ComponentFactoryResolver,

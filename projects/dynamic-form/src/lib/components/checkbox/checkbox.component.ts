@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
     <div class="demo-full-width margin-top" [formGroup]="group" >
     
     <mat-checkbox [formControlName]="field.name">{{field.label}}</mat-checkbox>
-    
+
     </div>
   `,
   styles: []
