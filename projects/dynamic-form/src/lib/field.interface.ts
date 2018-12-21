@@ -4,12 +4,14 @@ export interface Validator {
     message: string;
 }
 export interface FieldConfig {
+    type: 'input' | 'date' | 'select' | 'checkbox' | 'radiobutton';
     label?: string;
     name?: string;
     inputType?: string;
     options?: string[];
+    min_max_validation?: boolean;
+    min_max_date?: [Date, Date];
     collections?: any;
-    type: string;
     value?: any;
     validations?: Validator[];
 }

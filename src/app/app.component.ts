@@ -77,6 +77,8 @@ export class AppComponent {
       type: "date",
       label: "DOB",
       name: "dob",
+      min_max_validation: true,
+      min_max_date: [new Date(2018, 11, 20), new Date()],
       validations: [
         {
           name: "required",

@@ -9,11 +9,11 @@ import { FormGroup } from '@angular/forms';
 
     <mat-label>{{field?.label}}</mat-label>
 
-    <input matInput [matDatepicker]="picker" [formControlName]="field.name" [placeholder]="field.label">
+    <input matInput [matDatepicker]="picker" [min]="field.min_max_validation ? field?.min_max_date[0] : null" [max]="field.min_max_validation ? field?.min_max_date[1] : null" [formControlName]="field?.name" [placeholder]="field?.label">
   
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker #picker disabled="false"></mat-datepicker>
   
     <mat-hint></mat-hint>
   
